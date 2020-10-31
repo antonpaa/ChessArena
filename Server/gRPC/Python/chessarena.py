@@ -1,4 +1,2 @@
-class ChessArena
-
-
-def Initialize
+def Initialize():
+    print("Initialize!")

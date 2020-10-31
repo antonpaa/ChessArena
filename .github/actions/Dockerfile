@@ -1,4 +1,7 @@
-FROM alpine:latest
+FROM python:3.8-buster
+
+RUN mkdir /workdir
+WORKDIR /workdir
 
 LABEL "com.github.actions.name" = "CI Setup"
 LABEL "com.github.actions.description" = "Sets up the environment to run the CI"
@@ -10,14 +13,19 @@ LABEL "homepage" = "https://github.com/vergi40/ChessArena"
 
 # Add pip
 USER root
-RUN apt-get update
-RUN apt-get install -y python3-pip
+RUN \
+	apt-get update && \
+	pip install -U pip && \
+    rm -rf /var/lib/apt/lists/*
+RUN apt-get install -y --no-install-recommends python3-pip
 
 # Install protobuf checker requirements
-RUN pip3 install --user grpcio-tools
-RUN pip3 install --user protobuf
-RUN pip3 install invoke
+COPY Server/gRPC/Python//requirements.txt /workdir/requirements.txt
+RUN pip install -r requirements.txt
 
-ADD protobuf-check.sh /protobuf-check.sh
+COPY protobuf-check.sh /protobuf-check.sh
 RUN chmod +x /protobuf-check.sh
 ENTRYPOINT ["/protobuf-check.sh"]
+
+# Switch back to non privileged user
+USER guest

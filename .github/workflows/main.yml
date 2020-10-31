@@ -34,7 +34,7 @@ jobs:
       - name: Test with pytest
         run: |
           pytest
-      - uses: ./.github/actions
+      - name: check protobuf output
+        uses: ./.github/actions
         with:
           PROJECT_NAME: "TBA"
-      - name: check protobuf output

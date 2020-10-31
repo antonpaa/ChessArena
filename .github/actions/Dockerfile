@@ -17,7 +17,6 @@ RUN \
 	apt-get update && \
 	pip install -U pip && \
     rm -rf /var/lib/apt/lists/*
-RUN apt-get install -y --no-install-recommends python3-pip
 
 # Install protobuf checker requirements
 COPY Server/gRPC/Python//requirements.txt /workdir/requirements.txt

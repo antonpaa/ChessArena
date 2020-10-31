@@ -8,6 +8,6 @@ LABEL "com.github.actions.color" = "green"
 LABEL "repository" = "https://github.com/vergi40/ChessArena"
 LABEL "homepage" = "https://github.com/vergi40/ChessArena"
 
-ADD entrypoint.sh /entrypoint.sh
-RUN chmod +x /entrypoint.sh
-ENTRYPOINT ["/entrypoint.sh"]
+ADD protobuf-check.sh /protobuf-check.sh
+RUN chmod +x /protobuf-check.sh
+ENTRYPOINT ["/protobuf-check.sh"]

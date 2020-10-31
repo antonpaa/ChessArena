@@ -1,6 +1,7 @@
 ﻿using System.Threading.Tasks;
 using CommonNetStandard.Interface;
 using CommonNetStandard.Local_implementation;
+using GameManager;
 using Grpc.Core;
 
 namespace CommonNetStandard.Connection
@@ -29,15 +30,15 @@ namespace CommonNetStandard.Connection
         {
             _aiName = playerName;
             _channel = new Channel(address, ChannelCredentials.Insecure);
-            _client = new ClientImplementation(new ChessArena.ChessArenaClient(_channel));
+            _client = new ClientImplementation(new GameService.GameServiceClient(_channel));
 
             Logger.Log($"Opening gRPC channel to {address}");
 
             var startInformation = await _client.Initialize(playerName);
             var localInformation = new StartInformationImplementation()
             {
-                WhitePlayer = startInformation.WhitePlayer,
-                OpponentMove = Mapping.ToCommon(startInformation.OpponentMove)
+                WhitePlayer = startInformation.Start,
+                OpponentMove = Mapping.ToCommon(startInformation.ChessMove)
             };
             return localInformation;
         }

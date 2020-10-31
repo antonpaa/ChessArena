@@ -19,7 +19,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Protobuf Include="..\..\..\Server\ChessArena.proto" Link="ChessArena.proto" />
+    <Protobuf Include="..\..\..\Server\gRPC\protos\ChessArena.proto" Link="ChessArena.proto" />
   </ItemGroup>
 
   <ItemGroup>

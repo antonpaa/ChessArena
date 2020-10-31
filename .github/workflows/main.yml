@@ -35,6 +35,7 @@ jobs:
         run: |
           pytest
       - name: check protobuf output
+        if: ${{ always() }}
         uses: ./.github/actions
         with:
           PROJECT_NAME: "TBA"

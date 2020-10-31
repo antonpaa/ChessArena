@@ -19,7 +19,7 @@ RUN \
     rm -rf /var/lib/apt/lists/*
 
 # Install protobuf checker requirements
-COPY Server/gRPC/Python/requirements.txt /workdir/requirements.txt
+COPY ./Server/gRPC/Python/requirements.txt /workdir/requirements.txt
 RUN pip install -r requirements.txt
 
 COPY protobuf-check.sh /protobuf-check.sh

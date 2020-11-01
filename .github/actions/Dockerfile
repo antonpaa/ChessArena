@@ -26,11 +26,12 @@ USER root
 RUN \
     apt-get update && \
     pip install -U pip && \
+    apt-get install -y python3-pip \
     rm -rf /var/lib/apt/lists/*
 
 # Install protobuf checker requirements
-RUN python3 -m pip install --user grpcio-tools
-RUN python3 -m pip install --user protobuf
+RUN pip3 install --user grpcio-tools
+RUN pip3 install --user protobuf
 
 COPY protobuf-check.sh /protobuf-check.sh
 RUN chmod +x /protobuf-check.sh

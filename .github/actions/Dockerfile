@@ -24,8 +24,8 @@ LABEL "homepage" = "https://github.com/vergi40/ChessArena"
 # Add pip
 USER root
 RUN \
-	apt-get update && \
-	pip install -U pip && \
+    apt-get update && \
+    pip install -U pip && \
     rm -rf /var/lib/apt/lists/*
 
 # Install protobuf checker requirements

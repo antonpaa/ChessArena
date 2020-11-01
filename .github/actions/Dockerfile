@@ -5,6 +5,16 @@ LABEL "com.github.actions.description" = "Sets up the environment to run the CI"
 LABEL "com.github.actions.icon" = "chevron-right"
 LABEL "com.github.actions.color" = "green"
 
+# Instantiate a guest user
+RUN \
+    groupadd -g 999 guest && useradd -u 999 -g guest -G sudo -m -s /bin/bash guest && \
+    sed -i /etc/sudoers -re 's/^%sudo.*/%sudo ALL=(ALL:ALL) NOPASSWD: ALL/g' && \
+    sed -i /etc/sudoers -re 's/^root.*/root ALL=(ALL:ALL) NOPASSWD: ALL/g' && \
+    sed -i /etc/sudoers -re 's/^#includedir.*/## **Removed the include directive** ##"/g' && \
+    echo "guest ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers && \
+    echo "Customized the sudoers file for passwordless access to the guest user!" && \
+    echo "guest user:";  su - guest -c id
+
 RUN mkdir /workdir
 WORKDIR /workdir
 

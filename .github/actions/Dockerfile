@@ -8,6 +8,8 @@ LABEL "com.github.actions.color" = "green"
 # ensure local python is preferred over distribution python
 ENV PATH /usr/local/bin:$PATH
 
+RUN alias python3="/usr/bin/python3.7"
+
 # Instantiate a guest user
 RUN \
     groupadd -g 999 guest && useradd -u 999 -g guest -G sudo -m -s /bin/bash guest && \
@@ -34,8 +36,6 @@ RUN \
 # Install protobuf checker requirements
 RUN python3 -m pip install --user grpcio-tools
 RUN python3 -m pip install --user protobuf
-
-RUN whereis python3
 
 COPY protobuf-check.sh /protobuf-check.sh
 RUN chmod +x /protobuf-check.sh

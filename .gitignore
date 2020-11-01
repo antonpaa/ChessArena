@@ -358,3 +358,6 @@ GeneratedArtifacts/
 _Pvt_Extensions/
 ModelManifest.xml
 /WeldControlScan/App.Debug.config
+
+.vscode
+.ionide

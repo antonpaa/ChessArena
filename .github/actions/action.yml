@@ -1,5 +1,5 @@
 name: "Default actions"
-description: "Output project name"
+description: "Execute the default CI actions for the project"
 author: "antonpaa@github.com"
 
 inputs:

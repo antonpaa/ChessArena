@@ -1,6 +1,8 @@
 syntax = "proto3";
 
-service ChessArena {
+package GameManager;
+
+service GameService {
     // A simple RPC
     //
     // Inform server that the client is ready to start the game. 
@@ -8,37 +10,41 @@ service ChessArena {
     // 1. Player is starting player (white). Opponent move message not set.
     // 2. Player is not starting player (black). Opponent move message provides opening
     //    move coordinates. 
-    rpc Initialize(PlayerInformation) returns (GameStartInformation) {}
+    rpc Initialize(GameInformation) returns (GameStartInformation) {}
 
     // A Bidirectional streaming RPC.
     //
     // Send player moves. Receive opponent moves.
-    rpc CreateMovements(stream PlayerMove) returns (stream Move) {}
+    rpc Act(stream Move) returns (stream Move) {}
 }
 
-// Initialize
-
-message PlayerInformation {
-    string name = 1;    
+// Initialize wanted game
+message GameInformation {
+    string name = 1;
+    oneof game {
+        string chess = 2;
+    }
 }
 
 message GameStartInformation {
-    // True if client is starting player.
+    // True if caller is the starting player.
     // If false, opponent move is also returned.
-    bool white_player = 1;
-    Move opponent_move = 2;
+    bool start = 1;
+    oneof opponentAct {
+        Move chessMove = 2;
+    }
 }
 
-// Create movements
-
-message PlayerMove {
-    Move move = 1;
+message Move {
+    oneof game {
+        ChessMove chess = 1;
+    }
     // Any optional additional data about the move.
     // E.g. search depth, eval count, strategy...
     string diagnostics = 2;
 }
 
-message Move {
+message ChessMove {
     // Standard chess notation (file, rank), e.g. "f5"
     string start_position = 1;
     // Standard chess notation (file, rank) e.g. "f6"

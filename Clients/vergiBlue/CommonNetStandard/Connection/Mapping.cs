@@ -1,46 +1,46 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using CommonNetStandard.Interface;
 using CommonNetStandard.Local_implementation;
+using GameManager;
 
-namespace CommonNetStandard.Interface
+namespace CommonNetStandard.Connection
 {
     public class Mapping
     {
-        public static Move ToGrpc(IMove move)
+        public static ChessMove ToGrpc(IMove move)
         {
-            var grpcMove = new Move()
+            var grpcMove = new ChessMove()
             {
                 Castling = move.Castling,
                 Check = move.Check,
                 CheckMate = move.CheckMate,
                 StartPosition = move.StartPosition,
                 EndPosition = move.EndPosition,
-                PromotionResult = (Move.Types.PromotionPieceType) move.PromotionResult
+                PromotionResult = (ChessMove.Types.PromotionPieceType) move.PromotionResult
             };
             return grpcMove;
         }
 
-        public static PlayerMove ToGrpc(IPlayerMove playerMove)
+        public static Move ToGrpc(IPlayerMove playerMove)
         {
-            var grpcMove = new PlayerMove()
+            var grpcMove = new Move()
             {
                 Diagnostics = playerMove.Diagnostics,
-                Move = ToGrpc(playerMove.Move)
+                Chess = ToGrpc(playerMove.Move)
             };
             return grpcMove;
         }
 
         public static IMove ToCommon(Move grpcMove)
         {
+            var chessMove = grpcMove.Chess;
             var move = new MoveImplementation()
             {
-                Castling = grpcMove.Castling,
-                Check = grpcMove.Check,
-                CheckMate = grpcMove.CheckMate,
-                StartPosition = grpcMove.StartPosition,
-                EndPosition = grpcMove.EndPosition,
-                PromotionResult = (PromotionPieceType)grpcMove.PromotionResult
+                Castling = chessMove.Castling,
+                Check = chessMove.Check,
+                CheckMate = chessMove.CheckMate,
+                StartPosition = chessMove.StartPosition,
+                EndPosition = chessMove.EndPosition,
+                PromotionResult = (PromotionPieceType)chessMove.PromotionResult
             };
             return move;
         }

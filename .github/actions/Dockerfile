@@ -35,6 +35,8 @@ RUN \
 RUN python3 -m pip install --user grpcio-tools
 RUN python3 -m pip install --user protobuf
 
+RUN whereis python3
+
 COPY protobuf-check.sh /protobuf-check.sh
 RUN chmod +x /protobuf-check.sh
 ENTRYPOINT ["/protobuf-check.sh"]

@@ -34,7 +34,7 @@ RUN \
 # Install protobuf checker requirements
 RUN python3 -m pip install --user grpcio-tools
 RUN python3 -m pip install --user protobuf
-RUN python3 -m grpc_tools.protoc -I ./Server/grpc/protos --python_out=. --grpc_python_out=. ./Server/grpc/protos/GameManager.proto
+RUN python3 -m grpc_tools.protoc -I ../../Server/grpc/protos --python_out=. --grpc_python_out=. ../../Server/grpc/protos/GameManager.proto
 
 # Switch back to non privileged user
 USER guest

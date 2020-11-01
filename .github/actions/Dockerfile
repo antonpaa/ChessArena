@@ -5,6 +5,9 @@ LABEL "com.github.actions.description" = "Sets up the environment to run the CI"
 LABEL "com.github.actions.icon" = "chevron-right"
 LABEL "com.github.actions.color" = "green"
 
+# ensure local python is preferred over distribution python
+ENV PATH /usr/local/bin:$PATH
+
 # Instantiate a guest user
 RUN \
     groupadd -g 999 guest && useradd -u 999 -g guest -G sudo -m -s /bin/bash guest && \
@@ -31,9 +34,6 @@ RUN \
 # Install protobuf checker requirements
 RUN python3 -m pip install --user grpcio-tools
 RUN python3 -m pip install --user protobuf
-
-# Ensure that Python references point to the same installation
-RUN ln -s /usr/local/lib/python3 /usr/local/bin/python3
 
 COPY protobuf-check.sh /protobuf-check.sh
 RUN chmod +x /protobuf-check.sh

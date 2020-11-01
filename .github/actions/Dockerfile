@@ -35,9 +35,10 @@ RUN \
 RUN python3 -m pip install --user grpcio-tools
 RUN python3 -m pip install --user protobuf
 
+COPY protobuf-check.sh /protobuf-check.sh
+RUN chmod a+x /protobuf-check.sh
+
 # Switch back to non privileged user
 USER guest
 
-COPY protobuf-check.sh /protobuf-check.sh
-RUN chmod +x /protobuf-check.sh
 ENTRYPOINT ["/protobuf-check.sh"]

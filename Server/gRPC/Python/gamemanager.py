@@ -8,35 +8,32 @@ import GameManager_pb2_grpc
 
 class GameManager(GameManager_pb2_grpc.GameService):
     def __init__(self):
-        self._gameModule = None
+        self._gameObject = None
         self._player1 = None
         self._player2 = None
-        self._game = None 
+        self._game = None
 
     def Initialize(self, request, context):
         print("Got a client Initialize call!")
         self._player1 = request.name
+        act = GameManager_pb2.Move()
         
         if request.WhichOneof("game") == 'chess':
-           self._gameModule = __import__('chessarena', fromlist=[''])
+           module = __import__('chessarena', fromlist=[''])
+           self._gameObject = module.ChessArena()
            self._game = 'chess'
+           act = GameManager_pb2.Move(chess=GameManager_pb2.ChessMove(), diagnostics='Init')
         else:
             context.set_code(grpc.StatusCode.INVALID_ARGUMENT)
             context.set_details('Unknown game')
             context.abort_with_status('Client requested game was not known')
 
-        act = GameManager_pb2.ChessMove()
-        return GameManager_pb2.GameStartInformation(start=True, opponentAct=act)
+        return GameManager_pb2.GameStartInformation(start=True, chessMove=act)
 
     def Act(self, request_iterator, context):
         print("Got a client Act call!")
         if self._game == 'chess':
-            prevMoves = []
-            for newMove in request_iterator:
-                for prevMove in prevMoves:
-                    if prevMove.game.chess == newMove.game.chess:
-                        yield prevMove
-                prevMoves.append(newMove)
+            self._gameObject.Act()
 
 def serve():
     server = grpc.server(futures.ThreadPoolExecutor(max_workers=10))

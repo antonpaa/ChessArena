@@ -29,8 +29,8 @@ RUN \
     rm -rf /var/lib/apt/lists/*
 
 # Install protobuf checker requirements
-RUN pip install --user grpcio-tools
-RUN pip install --user protobuf
+RUN python3 -m pip install --user grpcio-tools
+RUN python3 -m pip install --user protobuf
 
 COPY protobuf-check.sh /protobuf-check.sh
 RUN chmod +x /protobuf-check.sh

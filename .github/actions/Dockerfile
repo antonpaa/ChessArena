@@ -1,4 +1,4 @@
-FROM python:3
+FROM python:3.8-buster
 
 LABEL "com.github.actions.name" = "CI Setup"
 LABEL "com.github.actions.description" = "Sets up the environment to run the CI"
@@ -31,6 +31,9 @@ RUN \
 # Install protobuf checker requirements
 RUN python3 -m pip install --user grpcio-tools
 RUN python3 -m pip install --user protobuf
+
+# Ensure that Python references point to the same installation
+RUN ln -s /usr/local/lib/python3 /usr/local/bin/python3
 
 COPY protobuf-check.sh /protobuf-check.sh
 RUN chmod +x /protobuf-check.sh

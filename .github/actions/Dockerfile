@@ -31,10 +31,15 @@ RUN \
     pip install -U pip && \
     rm -rf /var/lib/apt/lists/*
 
+
+# Switch back to non privileged user
+USER guest
+
 # Install protobuf checker requirements
 RUN python3 -m pip install --user grpcio-tools
 RUN python3 -m pip install --user protobuf
 
+USER root
 COPY protobuf-check.sh /protobuf-check.sh
 RUN chmod a+x /protobuf-check.sh
 
